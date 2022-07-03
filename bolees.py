@@ -39,7 +39,7 @@ def check_user_input(nb:str):
             print("La quantité doit être un entier compris entre 0 et 99")
             return False
 
- 
+
 """
 EN Gets the lyrics of the song
 @param int
