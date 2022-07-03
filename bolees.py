@@ -1,47 +1,67 @@
 from inspect import _void
 
-
-# TODO : ADD nb as argument of the command line
+"""
+EN This script displays some song's lyrics according to the number chosen by the user
+"""
 def main()->_void:
-    nb = 55
-    song = getSong(nb)
-    partOne = song[0]
-    partTwo = song[1]
-    print(partOne)
-    print(partTwo)
+    nb = input("Nombre de bolées désirées :")
+    isInt:bool = check_user_input(nb)
+    if isInt:
+        song:tuple = getSong(int(nb))
+        partOne:str = song[0]
+        partTwo:str = song[1]
+        print(partOne)
+        print(partTwo)
+
+
+"""
+EN Checks if the user entered a valid parameter : if it can be typed as an int between 0 and 99, it is valid
+@param str
+@return bool
+"""
+def check_user_input(nb:str):
+    # In case no number is entered
+    if nb == "":
+        print("Si tu ne renseigne pas de quantité, je ne peux pas chanter !")
+        return False
+    else:
+        # It is an int
+        try:
+            value = int(nb)
+            # If the number is within 0 and 99
+            if value >= 0 and value <= 99:
+                return True
+            else:
+                print("La quantité doit être comprise entre 0 et 99.")
+                return False
+        # It is not an int
+        except ValueError:
+            print("La quantité doit être un entier compris entre 0 et 99")
+            return False
 
  
 """
-EN 
-@param str or int
+EN Gets the lyrics of the song
+@param int
 @return tuple[str]
 """
-def getSong(nb)->str:
-    # In case no number is entered
-    if nb == "":
-        partOne:str = "Si tu ne renseigne pas de quantité, je ne peux pas chanter !"
-        partTwo:str = ""
-    # If the number entered is between 0 and 99 included
-    elif nb > 0 and nb <= 99:
+def getSong(nb:int)->str:
+    # If the number entered is between 1 and 99 included
+    if nb > 0 and nb <= 99:
         partOne:str = songPartOne(nb)
         partTwo:str = songPartTwo(nb - 1)
     # If the number if zero, the song is different
     elif nb == 0:
         partOne:str = "Plus de bolées de cidre sur le mur, plus de bolées sans alcool."
         partTwo:str = "Vas au supermarché pour en acheter, 99 bolées de cidre sur le mur."
-    # If the number is not within 0 and 99
-    elif nb < 0 or nb > 99:
-        partOne:str = "La quantité doit être comprise entre 0 et 99."
-        partTwo:str = ""
     return partOne, partTwo
 
 
 """
-EN 
+EN Gets the first line of the song
 @param int
 @return str
 """
-# First line of the song
 def songPartOne(nb:int)->str:
     accord:str = plural(nb)
     if(nb == 0):
@@ -50,11 +70,10 @@ def songPartOne(nb:int)->str:
 
 
 """
-EN 
+EN Gets the second line of the song
 @param int
 @return str
 """
-# Second line of the song
 def songPartTwo(newNb:int)->str:
     accord:str = plural(newNb)
     if(newNb == 0):
@@ -63,11 +82,10 @@ def songPartTwo(newNb:int)->str:
 
 
 """
-EN 
+EN Gets whether the word "bolée" is plural or singular
 @param int
 @return str
 """
-# Decides whether the word "bolée" is plural or singular
 def plural(number:int):
     accord:str = ""
     if(number > 1 or number == 0):
